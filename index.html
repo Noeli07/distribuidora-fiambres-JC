@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribuidora JC – Fiambres y Quesos</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin:0; padding:0; background-color:#fdf5f2; }
+        header img { width:100%; height:auto; display:block; }
+        .instrucciones { text-align:center; padding:15px; background-color:#d7932c; color:rgb(2, 2, 2); font-size:18px; }
+        .productos { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; padding:20px; }
+        .producto { border:1px solid #ccc; padding:15px; background:white; border-radius:10px; text-align:center; }
+        .producto h3 { margin:10px 0; }
+        .precio { font-weight:bold; color:#d73c2c; }
+        button { background-color:#e95a37; color:white; padding:8px 12px; border:none; border-radius:5px; cursor:pointer; }
+        button:hover { background-color:#ce5656; }
+        #carrito { position:fixed; bottom:20px; right:20px; background:white; border:2px solid #d73c2c; padding:15px; border-radius:10px; width:300px; }
+        #carrito h2 { margin-top:0; }
+        .carrito-item { display:flex; justify-content:space-between; margin-bottom:5px; }
+        .finalizar { background-color:green; margin-top:10px; width:100%; }
+        .imagen-ilustrativa { width:100%; height:auto; margin-bottom:10px; border-radius:8px; }
+        .leyenda { font-size:14px; color:#ec9f9f; text-align:center; margin-top:-10px; margin-bottom:20px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="Banner.jpeg" alt="Distribuidora JC">
+</header>
+
+<div class="instrucciones">
+    Selecciona los productos que deseas comprar y agrégalos al carrito de compras.  
+    Una vez finalizada la selección, oprime el botón "Pedido Finalizado" y concluye la transacción por medio de WhatsApp.
+</div>
+
+<!-- Marcas disponibles -->
+<img style="width:250px; height: 200px;" class="Marca de salames" src="Sello de oro.png" alt="Sello de Oro">
+<img style="width:250px; height: 200px;" class="Marca de salames" src="Don Antonio.jpg" alt="Don Antonio">
+<img style="width:250px; height: 200px;"class="Marca de salames" src="Don Vittorio.jpg" alt="Don Vittorio">
+<img style="width:250px; height: 200px;"class="Marca de salames" src="Don abel.jpg" alt="Don Abel">
+<img style="width:250px; height: 200px;"class="Marca de quesos" src="Elogio.jpg" alt="Elogio">
+<img style="width:250px; height: 200px;"class="Marca de quesos" src="La paulina.png" alt="La Paulina">
+<img style="width:250px; height: 200px;"class="Marca de quesos" src="Punta de agua.jpg" alt="Punta de Agua">
+<div style="color:black" class="leyenda">Marcas disponibles en fiambres y quesos</div>
+
+
+<h2 style="padding-left:20px;">Fiambres</h2>
+<div class="productos" id="lista-fiambres"></div>
+
+<h2 style="padding-left:20px;">Quesos</h2>
+<div class="productos" id="lista-quesos"></div>
+
+<div id="carrito">
+    <h2>Carrito</h2>
+    <div id="items-carrito"></div>
+    <button class="finalizar" onclick="finalizarPedido()">Pedido Finalizado</button>
+</div>
+
+<script>
+const fiambres = [
+    {nombre:"SALAMIN PICADO GRUESO", precio:12960},
+    {nombre:"SALAMIN PICADO FINO", precio:12960},
+    {nombre:"LONGANIZA CALABRESA", precio:12960},
+    {nombre:"CHORIZO CANDELARIO", precio:12960},
+    {nombre:"CHACARERO NOSTRALITO CRIOLLO", precio:17140},
+    {nombre:"SALAME MILAN FAMILIAR", precio:12960},
+    {nombre:"LONZANIZA CALABRESA CASTON CORTA", precio:12903},
+    {nombre:"PEPPERONI BASTON CORTO", precio:13533},
+    {nombre:"SOPRESATTA", precio:17757},
+    {nombre:"SALAME NOSTRALE GTE CORTO", precio:12903},
+    {nombre:"SALAME MILAN GTE CORTO", precio:12903},
+    {nombre:"SALAME MILAN GTE", precio:12903},
+    {nombre:"LONGANIZA CALABRESA GTE AL VACIO EN 1/2", precio:13438},
+    {nombre:"SALAME ESPAÑOL GTE AL VACIO EN 1/2", precio:13438},
+    {nombre:'"DON ANTONIO" SALAME TIPO CRIOLLO AL VACIO', precio:16500},
+    {nombre:'"DON VITTORIO" SALAME DE CERDO AL VACIO', precio:16500},
+    {nombre:'"DON ABEL" CHORIZO ESPAÑOL AL VACIO', precio:16500},
+    {nombre:"MORTADELA VEJIGA CLASICA", precio:6581},
+    {nombre:"MORTADELA VEJIGA CON PISTACHO", precio:7335},
+    {nombre:"MORTADELA GTE TIPO ITALIANA CON PISTACHO", precio:7335},
+    {nombre:"SALCHICHON CON JAMON", precio:4970},
+    {nombre:"SALCHICHON PRIMAVERA", precio:4970},
+    {nombre:"BURZOT", precio:4970},
+    {nombre:"JAMON COCIDO PLUS NATURAL", precio:12340},
+    {nombre:"JAMON COCIDO BARRILITO", precio:10695},
+    {nombre:"FIAMBRE COCIDO DE PATA DE CERDO CHICO BARRIL", precio:8570},
+    {nombre:"FIAMBRE COCIDO DE PALETA DE CERDO CHICA BARRIL", precio:8400},
+    {nombre:"FIMABRE COCIDO PARA EMPAREDADOS", precio:5495},
+    {nombre:"LOMO DE CERDO HORNEADO AL VACIO", precio:14946},
+    {nombre:"LOMO DE CERDO HORNEADO ENTERO AL VACIO", precio:14946},
+    {nombre:"PANCETA AHUMADA AL VACIO", precio:15500},
+    {nombre:"PANCETA AHUMADA ENTERA AL VACIO", precio:15500}
+];
+
+const quesos = [
+    {nombre:"CREMOSO ELOGIO SIN TACC", precio:6049},
+    {nombre:"CREMOSO ELOGIO MEDIA HORMA SIN TACC", precio:6798},
+    {nombre:"CREMOSO PUNTA DE AGUA", precio:null},
+    {nombre:"CREMOSO LA PAULINA", precio:null},
+    {nombre:"TYBO ELOGIO SIN TACC", precio:8576},
+    {nombre:"TYBO ELOGIO MEDIA HORMA SIN TACC", precio:7478},
+    {nombre:"PORT-SALUT ELOGIO CLASICO SIN TACC", precio:null},
+    {nombre:"PORT-SALUT ELOGIO CLÁSICO SIN SAL", precio:null},
+    {nombre:"PORT-SALUT LIGHT SIN TACC", precio:7418},
+    {nombre:"PORT-SALUT LIGHT SIN SAL", precio:7418},
+    {nombre:"SARDO NEGRO ELOGIO SIN TACC", precio:11550},
+    {nombre:"ROMANITO ELOGIO", precio:null},
+    {nombre:"REGGIANITO ELOGIO", precio:null},
+    {nombre:"PROVOLONE ELOGIO", precio:null},
+    {nombre:"PROVOLONE HILADO P/ PARRILLA ENTERO", precio:null},
+    {nombre:"PROVOLONE HILADO P/ PARRILLA MEDIA HORMA", precio:null},
+    {nombre:"PROVOLONE HILADO P/ PARRILLA PORCIONADO", precio:11783},
+    {nombre:"MOZZARELLA CILINDRO ELOGIO (4 Kg)", precio:7251},
+    {nombre:"MOZZARELLA CILINDRO ELOGIO (2 Kg)", precio:null},
+    {nombre:"MOZZARELLA CILINDRO ELOGIO (0,5 Kg) SIN TACC", precio:7647},
+    {nombre:"MOZZARELLA PLANCHA ELOGIO (10 Kg)", precio:6911},
+    {nombre:"MOZZARELLA BARRA ELOGIO", precio:8724},
+    {nombre:"RICOTTA ENTERA ELOGIO", precio:7682},
+    {nombre:"QUESO AZUL ELOGIO", precio:13040},
+    {nombre:"CREMA DE LECHE POTE 500 cc", precio:2945}
+];
+
+let carrito = [];
+
+function mostrarProductos(lista, idContenedor) {
+    const contenedor = document.getElementById(idContenedor);
+    lista.forEach(prod => {
+        const div = document.createElement("div");
+        div.className = "producto";
+        div.innerHTML = `<h3>${prod.nombre}</h3>
+                         <p class="precio">${prod.precio ? "$" + prod.precio.toLocaleString() : "Consultar stock y precio"} </p>
+                         <label for="cantidad1">Cantidad:</label>
+                        <input type="number" id="cantidad1" name="cantidad" min="1" value="1">
+                         <button onclick="agregarAlCarrito('${prod.nombre}', ${prod.precio})">Agregar al carrito</button>`;
+        contenedor.appendChild(div);
+    });
+}
+
+function agregarAlCarrito(nombre, precio) {
+    carrito.push({ nombre, precio });
+    renderCarrito();
+}
+
+function quitarDelCarrito(index) {
+    carrito.splice(index, 1);
+    renderCarrito();
+}
+
+function renderCarrito() {
+    const cont = document.getElementById("items-carrito");
+    cont.innerHTML = "";
+    carrito.forEach((item, i) => {
+        cont.innerHTML += `<div class="carrito-item">
+                               <span>${item.nombre}</span>
+                               <button onclick="quitarDelCarrito(${i})">❌</button>
+                           </div>`;
+    });
+}
+
+function finalizarPedido() {
+    let mensaje = "Hola, quiero realizar el siguiente pedido:%0A";
+    carrito.forEach(item => {
+        mensaje += `- ${item.nombre} ${item.precio ? "($" + item.precio.toLocaleString() + ")" : ""}%0A`;
+    });
+    const numero = "5491137763052";
+    window.open(`https://wa.me/${numero}?text=${mensaje}`, "_blank");
+}
+
+mostrarProductos(fiambres, "lista-fiambres");
+mostrarProductos(quesos, "lista-quesos");
+</script>
+
+</body>
+</html>
